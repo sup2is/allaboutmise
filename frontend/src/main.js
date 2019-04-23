@@ -12,6 +12,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
+Vue.prototype.$EventBus = new Vue()
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

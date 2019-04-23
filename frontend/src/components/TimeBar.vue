@@ -10,17 +10,21 @@ export default {
   data () {
     return {
       max: 600,
-      value: 1
+      value: 0
     }
   },
   methods: {
     timer() {
       setInterval(()=> {
         this.value += 5
+        if(this.value > 600) {
+          this.$EventBus.$emit('reload')
+          this.value = 0
+        }
       },1000)
     }
   },
-  mounted: {
+  mounted() {
     this.timer()
   }
 }

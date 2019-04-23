@@ -13,6 +13,8 @@
 
 import Header from './components/Header'
 import Content from './components/Content'
+import Vue from 'vue'
+
 
 export default {
   name: 'App',
