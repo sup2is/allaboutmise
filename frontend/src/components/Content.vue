@@ -4,12 +4,12 @@
       <Citys/>
     </nav>
     <article>
-      <div class="container">
-        <transition-group name="fade" v-on:enter-active>
-        <div v-for="content in contents" class="row mb-4" :key="content.name">
-          <div class="col-sm-1" v-show="content.show" :key="content.name">{{ content.name }}</div>
+      <div id="contents" class="container">
+        <transition-group name="fade" v-on:after-enter="fadeNext">
+        <div v-for="content in contents" class="row mb-4" :key="content.name" v-show="content.show">
+          <div class="col-sm-1" :key="content.name">{{ content.name }}</div>
           <div class="col-sm-11 pt-1">
-            <b-progress v-show="content.show" :value="content.value" :variant="content.class" :key="content.value" show-value></b-progress>
+            <b-progress :value="content.value" :variant="content.class" :key="content.value" show-value></b-progress>
           </div>
         </div>
         </transition-group>
@@ -38,20 +38,27 @@ export default {
           { name: '노원구', value: 28, class: 'success', show: false},
           { name: '강북구', value: 13, class: 'primary', show: false}
         ],
-        fadeCount: 0
+        fadeCount: 0,
+        contentShow: true
     }
   },
   methods: {
     reload() {
       //todo 미세먼지 데이터 api 요청
+      console.log('reload()')
       this.contents = [
-          { name: '종로구', value: 112, class: 'dark', show: false},
-          { name: '강남구', value: 98, class: 'danger', show: false}
-          ] 
+          { name: '중구야', value: 112, class: 'dark', show: false},
+          { name: '밥먹었니', value: 98, class: 'danger', show: false},
+          { name: '아니', value: 112, class: 'dark', show: false},
+          { name: '배불러', value: 98, class: 'danger', show: false},
+          { name: '흑', value: 112, class: 'dark', show: false},
+          { name: 'ㅠㅠ', value: 98, class: 'danger', show: false}
+        ]
+      this.fadeCount = 0
     },
     fadeNext() {
       this.contents[this.fadeCount++].show = true
-      console.log(this.contents[this.fadeCount])
+      console.log(this.fadeCount)
     }
   },
   mounted() {
@@ -59,12 +66,10 @@ export default {
       this.reload()
     }),
     // setTimeout(this.fadeNext(),500)
-    setInterval(() =>
+    setTimeout(() =>
       this.fadeNext()
-      ,1000)
-  },
-  props : [
-  ]
+    ,100)
+  }
 }
 </script>
 
@@ -76,11 +81,13 @@ nav {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: all 0.5s;
+  
 }
 
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+  transform: translateY(20px);
 }
 
 </style>

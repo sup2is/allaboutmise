@@ -16,7 +16,7 @@ export default {
   methods: {
     timer() {
       setInterval(()=> {
-        this.value += 5
+        this.value += 100
         if(this.value > 600) {
           this.$EventBus.$emit('reload')
           this.value = 0
