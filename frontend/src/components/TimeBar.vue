@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-progress height="2px" :value="value" :max="max" class="mb-3"></b-progress>
+    <b-progress height="2px" :value="reloadTime" :max="max" class="mb-3"></b-progress>
   </div>
 </template>
 
@@ -10,22 +10,28 @@ export default {
   data () {
     return {
       max: 600,
-      value: 0
+      reloadTime: 0
     }
   },
   methods: {
     timer() {
       setInterval(()=> {
-        this.value += 100
-        if(this.value > 600) {
+        this.reloadTime += 1
+        if(this.reloadTime > 600) {
           this.$EventBus.$emit('reload')
-          this.value = 0
+          this.reloadTime = 0
         }
       },1000)
     }
   },
   mounted() {
     this.timer()
+  },
+  created() {
+    this.$http.get(this.$baseUrl+'/api/reloadTime')
+      .then((result) => {
+        this.reloadTime = result.data.param.reloadTime
+      })
   }
 }
 </script>
