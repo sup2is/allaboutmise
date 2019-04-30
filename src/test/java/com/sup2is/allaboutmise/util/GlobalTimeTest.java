@@ -1,7 +1,5 @@
 package com.sup2is.allaboutmise.util;
 
-import static org.junit.Assert.assertEquals;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

@@ -31,7 +31,6 @@ public class JsonResult {
 
 }
 
-
 enum Results {
 	SUCCESS,FAILED;
 }
