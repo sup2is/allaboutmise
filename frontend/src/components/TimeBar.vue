@@ -16,9 +16,9 @@ export default {
   methods: {
     timer () {
       setInterval(() => {
-        this.reloadTime += 1
+        this.reloadTime += 200
         if (this.reloadTime > 600) {
-          this.$EventBus.$emit('reload')
+          this.$EventBus.$emit('reload','서울')
           this.reloadTime = 0
         }
       }, 1000)

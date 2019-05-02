@@ -32,15 +32,14 @@ export default {
     return {
       contents: [],
       fadeCount: 0,
-      contentShow: true,
-      cityName : ''
+      contentShow: true
     }
   },
   methods: {
-    reload () {
-      
+    reload (cityName) {
+      getRealtimeMiseDatas(cityName)
     },
-    getMiseDatas (cityName) {
+    getRealtimeMiseDatas (cityName) {
       console.log(cityName)
       this.$http.post(this.$baseUrl + '/api/realtime-mise', {
         city: cityName
@@ -59,12 +58,12 @@ export default {
     }
   },
   mounted () {
-    this.$EventBus.$on('reload', () => {
-      this.reload()
+    this.$EventBus.$on('reload', (cityName) => {
+      this.reload(cityName)
     })
   },
   created () {
-    this.getMiseDatas('서울')
+    this.getRealtimeMiseDatas('서울')
   }
 }
 </script>
