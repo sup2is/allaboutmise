@@ -11,7 +11,7 @@
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"/>
     
-    <cache name="mise"
+    <cache name="mise-realtime"
             maxElementsInMemory="200"
             eternal="false"
             timeToIdleSeconds="300"

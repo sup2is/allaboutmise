@@ -55,7 +55,6 @@ public class XmlParserHandler extends DefaultHandler {
 		if(mise != null) {
 			setDataFromFieldName(builder.toString(), new String(ch,start,length));
 		}
-		
 	}
 	
 	public List<Mise> getParsedData() {

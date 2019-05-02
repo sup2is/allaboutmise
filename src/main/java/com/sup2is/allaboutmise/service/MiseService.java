@@ -9,6 +9,6 @@ import com.sup2is.allaboutmise.model.Mise;
 @Service
 public interface MiseService {
 
-	List<Mise> getCachedMiseListByCityName(String cityName) throws Exception;
+	List<Mise> getCachedRealTimeMiseListByCityName(String cityName) throws Exception;
 	
 }

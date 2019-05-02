@@ -1,7 +1,5 @@
 package com.sup2is.allaboutmise.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +44,7 @@ public class ApiController {
 	public ResponseEntity<JsonResult> getRealtimeMise(@RequestBody Map<String,String> data) {
 		try {
 			String city = data.get("city");
-			List<Mise> miseList = miseService.getCachedMiseListByCityName(city);
+			List<Mise> miseList = miseService.getCachedRealTimeMiseListByCityName(city);
 			Map<String, Object> param = new HashMap<>();
 			param.put("miseList", miseList);
 			return new ResponseEntity<JsonResult>(new JsonResult(param),HttpStatus.OK);
