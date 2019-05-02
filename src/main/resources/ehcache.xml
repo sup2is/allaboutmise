@@ -15,7 +15,7 @@
             maxElementsInMemory="200"
             eternal="false"
             timeToIdleSeconds="300"
-            timeToLiveSeconds="280"
+            timeToLiveSeconds="300"
             memoryStoreEvictionPolicy="LRU" />
 
 </ehcache>

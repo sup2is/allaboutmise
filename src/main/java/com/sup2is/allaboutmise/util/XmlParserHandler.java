@@ -4,18 +4,20 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.sup2is.allaboutmise.model.Mise;
+import com.sup2is.allaboutmise.model.Pm10ValueGrade;
 
-public class XmlParserHandler extends DefaultHandler {
-	
+@Component
+public class XmlParserHandler extends DefaultHandler {	
 	
 	private static StringBuilder builder = new StringBuilder(); 
-	private static List<Mise> miseList = new ArrayList<>();
 	private static Field[] fields = Mise.class.getDeclaredFields();
+	private List<Mise> miseList;
 	private Mise mise;
 
 	@Override
@@ -29,12 +31,21 @@ public class XmlParserHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if(qName.equals("item")) {
+			
+			if(miseList == null) {
+				miseList = new ArrayList<>();
+			}
+			setPm10ValueGrade();
 			miseList.add(mise);
 			mise = null;
 		}
 		builder.setLength(0);
 	}
 	
+	private void setPm10ValueGrade() {
+		mise.setCssClass(Pm10ValueGrade.getPm10ValueCssClass(Integer.parseInt(mise.getPm10Value())));
+	}
+
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		if(builder.toString().equals("item")) {
@@ -48,7 +59,10 @@ public class XmlParserHandler extends DefaultHandler {
 	}
 	
 	public List<Mise> getParsedData() {
-		return miseList;
+		List<Mise> copy = new ArrayList<Mise>();
+		copy.addAll(miseList);
+		miseList.clear();
+		return copy;
 	}
 
 	private void setDataFromFieldName(String name, String testValue) {

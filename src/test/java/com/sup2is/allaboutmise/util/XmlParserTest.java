@@ -35,8 +35,6 @@ import com.sup2is.allaboutmise.model.Mise;
 
 public class XmlParserTest {
 	
-	
-	private StringBuilder xmlBuilder;
 	private XmlParserHandler handler;
 	
 	@Before
@@ -47,7 +45,7 @@ public class XmlParserTest {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser parser = factory.newSAXParser();
 		handler = new XmlParserHandler();
-		parser.parse(file, handler);		
+		parser.parse(file, handler);
 	}
 	
 	@Test

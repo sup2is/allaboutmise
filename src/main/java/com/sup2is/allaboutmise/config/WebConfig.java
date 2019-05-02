@@ -1,5 +1,9 @@
 package com.sup2is.allaboutmise.config;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -9,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.xml.sax.SAXException;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer  {
@@ -34,5 +39,12 @@ public class WebConfig implements WebMvcConfigurer  {
 		EhCacheManagerFactoryBean factoryBean = new EhCacheManagerFactoryBean();
 		return factoryBean;
 	}
+	
+	@Bean
+	public SAXParser parser() throws ParserConfigurationException, SAXException {
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		return factory.newSAXParser();
+	}
+	
 	
 }

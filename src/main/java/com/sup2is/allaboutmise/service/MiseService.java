@@ -1,7 +1,14 @@
 package com.sup2is.allaboutmise.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.sup2is.allaboutmise.model.Mise;
+
+@Service
 public interface MiseService {
 
-	void getCachedMiseList(String cityName);
+	List<Mise> getCachedMiseListByCityName(String cityName) throws Exception;
 	
 }

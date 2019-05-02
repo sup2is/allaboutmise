@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,12 +20,65 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
+import com.sup2is.allaboutmise.model.Mise;
+
+import net.sf.ehcache.CacheManager;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MiseServiceTest {
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private MiseService miseService;
+	
+	@Autowired
+	private CacheManager cacheManager;
+	
+	
+	@Test
+	public void testGetCachedMiseListByCityName_withTestData() throws Exception {
+		
+		//given
+		String cityName = "인천";
+		
+		//when
+		List<Mise> miseList = miseService.getCachedMiseListByCityName(cityName);
+		
+		//then
+		assertEquals(true, miseList.size() > 0);
+		
+		System.out.println(miseList.toString());
+		cacheManager.getCache("mise").get(cityName);
+		
+	}
+	
+	
+	@Test
+	public void testGetCachedMiseListByCityName_cacheTest() throws Exception {
+		
+		//given
+		String cityName = "인천";
+		
+		//when
+		List<Mise> miseList = miseService.getCachedMiseListByCityName(cityName);
+		
+		System.out.println(miseList);
+		
+		//then
+		assertEquals(true, miseList.size() > 0);
+		
+
+
+		miseList = miseService.getCachedMiseListByCityName(cityName);
+		
+		System.out.println(miseList);
+		
+	}
+	
+	
 	
 	@Test
 	public void testGetCachedMise() {
@@ -33,7 +87,7 @@ public class MiseServiceTest {
 
 		url.append("http://openapi.airkorea.or.kr/openapi/services/rest");
 		url.append("/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?");
-		url.append("serviceKey=MubOZEkvZH1%2B8M98%2Fpbiml8OcBc%2B3We3nPNEBEauiZGN%2Br2HBWlDFedaf1w3Z%2BUe4LtZs3pn5%2FQylEZM4hsytg%3D%3D");
+		url.append("serviceKey=JjG0s4ycsYdZgdhyA6TSK0BmHZkjjF7Wl52jtIdrI4V%2BifddyGx1ETGSj%2BkK%2BfWdrYjW%2F1L%2B4hK0i0%2BA4viz4Q%3D%3D");
 		url.append("&numOfRows=10");
 		url.append("&pageNo=1");
 		url.append("&sidoName=%EC%9D%B8%EC%B2%9C");
