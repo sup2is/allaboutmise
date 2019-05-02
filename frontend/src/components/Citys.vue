@@ -38,6 +38,4 @@ a:hover { color: black; text-decoration: none;}
   font-family: sans-serif;
 }
 
-
-
 </style>

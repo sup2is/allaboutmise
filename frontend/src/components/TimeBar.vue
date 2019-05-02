@@ -14,21 +14,21 @@ export default {
     }
   },
   methods: {
-    timer() {
-      setInterval(()=> {
+    timer () {
+      setInterval(() => {
         this.reloadTime += 1
-        if(this.reloadTime > 600) {
+        if (this.reloadTime > 600) {
           this.$EventBus.$emit('reload')
           this.reloadTime = 0
         }
-      },1000)
+      }, 1000)
     }
   },
-  mounted() {
+  mounted () {
     this.timer()
   },
-  created() {
-    this.$http.get(this.$baseUrl+'/api/reloadTime')
+  created () {
+    this.$http.get(this.$baseUrl + '/api/reloadTime')
       .then((result) => {
         this.reloadTime = result.data.param.reloadTime
       })
