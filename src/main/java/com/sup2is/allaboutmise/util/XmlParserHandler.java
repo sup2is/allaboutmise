@@ -31,7 +31,6 @@ public class XmlParserHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if(qName.equals("item")) {
-			
 			if(miseList == null) {
 				miseList = new ArrayList<>();
 			}
@@ -43,7 +42,9 @@ public class XmlParserHandler extends DefaultHandler {
 	}
 	
 	private void setPm10ValueGrade() {
-		mise.setCssClass(Pm10ValueGrade.getPm10ValueCssClass(Integer.parseInt(mise.getPm10Value())));
+		if(!mise.getPm10Value().contains("-")) {
+			mise.setCssClass(Pm10ValueGrade.getPm10ValueCssClass(Integer.parseInt(mise.getPm10Value())));
+		}
 	}
 
 	@Override
@@ -64,17 +65,19 @@ public class XmlParserHandler extends DefaultHandler {
 		return copy;
 	}
 
-	private void setDataFromFieldName(String name, String testValue) {
+	private void setDataFromFieldName(String name, String value) {
+		if(value.equals("-")) {
+			value = "0";
+		}
 		try {
 			for(Field field : fields) {
 				if(field.getName().equals(name)) {
 					field.setAccessible(true);
-					field.set(mise, testValue);
+					field.set(mise, value);
 				}
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
 }

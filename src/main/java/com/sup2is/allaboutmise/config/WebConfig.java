@@ -29,7 +29,7 @@ public class WebConfig implements WebMvcConfigurer  {
 	@Bean
 	public RestTemplate restTemplate() {
 		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+		restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
 		return new RestTemplate();
 	}
 	
@@ -53,3 +53,4 @@ public class WebConfig implements WebMvcConfigurer  {
 	
 	
 }
+

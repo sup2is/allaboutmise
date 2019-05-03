@@ -15,6 +15,10 @@ Vue.config.productionTip = false
 
 Vue.prototype.$EventBus = new Vue()
 Vue.prototype.$http = axios
+Vue.prototype.$globalCity = '서울'
+Vue.prototype.$setGlobalCity = function (city) {
+  Vue.prototype.$globalCity = city
+}
 
 Vue.prototype.$baseUrl = 'http://127.0.0.1:8081/'
 

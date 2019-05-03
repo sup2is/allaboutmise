@@ -3,7 +3,6 @@
     <TimeBar/>
     <b-container fluid>
       <h1>{{msg}}</h1>
-
       <b-nav>
         <b-nav-item>실시간</b-nav-item>
         <b-nav-item>평균</b-nav-item>

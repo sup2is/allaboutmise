@@ -4,8 +4,8 @@
       <Citys/>
     </nav>
     <article>
-      <div id="contents" class="container">
-        <transition-group name="fade">
+      <div ref="content" class="container">
+        <transition-group name="fade" :key="transitionTrigger">
         <div v-for="content in contents" class="row mb-4" :key="content.stationName">
           <div class="col-sm-1" :key="content.stationName">{{ content.stationName }}</div>
           <div class="col-sm-11 pt-1">
@@ -15,7 +15,10 @@
         </transition-group>
       </div>
     </article>
-    <button @click="sortByPm10value"></button>
+    <div>
+      <b-spinner v-if="loading" label="Loading..."></b-spinner>
+    </div>
+    <button @click="!loading"></button>
   </div>
 </template>
 
@@ -32,21 +35,31 @@ export default {
     return {
       contents: [],
       fadeCount: 0,
-      contentShow: true
+      contentShow: true,
+      transitionTrigger: false,
+      loading: false
     }
   },
   methods: {
-    reload (cityName) {
-      getRealtimeMiseDatas(cityName)
+    reload () {
+      console.log(this.$refs.content)
+      this.getRealtimeMiseDatas()
     },
-    getRealtimeMiseDatas (cityName) {
-      console.log(cityName)
+    getRealtimeMiseDatas () {
+      var that = this
+      this.content = []
       this.$http.post(this.$baseUrl + '/api/realtime-mise', {
-        city: cityName
+        city: this.$globalCity
       })
         .then((result) => {
-          this.contents = result.data.param.miseList
-          this.sortByPm10value()
+          console.log(that)
+          setTimeout(
+            console.log(that.contents)
+            that.contents = result.data.param.miseList
+            // that.contents = result.data.param.miseList
+            // that.sortByPm10value()
+          , 700)
+
         })
     },
     sortByPm10value () {
@@ -58,12 +71,12 @@ export default {
     }
   },
   mounted () {
-    this.$EventBus.$on('reload', (cityName) => {
-      this.reload(cityName)
+    this.$EventBus.$on('reload', () => {
+      this.reload()
     })
   },
   created () {
-    this.getRealtimeMiseDatas('서울')
+    this.getRealtimeMiseDatas()
   }
 }
 </script>
@@ -76,7 +89,7 @@ nav {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: all 0.5s;
+  transition: all 0.7s;
 }
 
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {

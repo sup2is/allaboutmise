@@ -12,7 +12,7 @@
             memoryStoreEvictionPolicy="LRU"/>
     
     <cache name="mise-realtime"
-            maxElementsInMemory="200"
+            maxElementsInMemory="5000"
             eternal="false"
             timeToIdleSeconds="300"
             timeToLiveSeconds="300"

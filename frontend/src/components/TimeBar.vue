@@ -9,16 +9,16 @@ export default {
   name: 'TimeBar',
   data () {
     return {
-      max: 600,
+      max: 300,
       reloadTime: 0
     }
   },
   methods: {
     timer () {
       setInterval(() => {
-        this.reloadTime += 200
-        if (this.reloadTime > 600) {
-          this.$EventBus.$emit('reload','서울')
+        this.reloadTime += 100
+        if (this.reloadTime > 300) {
+          this.$EventBus.$emit('reload')
           this.reloadTime = 0
         }
       }, 1000)
