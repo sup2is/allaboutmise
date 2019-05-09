@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sup2is.allaboutmise.model.JsonResult;
 import com.sup2is.allaboutmise.model.Mise;
 import com.sup2is.allaboutmise.service.MiseService;
+import com.sup2is.allaboutmise.service.MiseServiceImpl;
 import com.sup2is.allaboutmise.util.GlobalTime;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api")
 @EnableCaching
+@Slf4j
 public class ApiController {
 	
 	@Autowired
@@ -31,6 +35,7 @@ public class ApiController {
 	@GetMapping("/reloadTime")
 	public ResponseEntity<JsonResult> getReloadTime() {
 		try {
+			log.debug("### : reloadTime call");
 			Map<String, Object> param = new HashMap<>();
 			param.put("reloadTime", GlobalTime.getReloadTimeToSeconds());
 			return new ResponseEntity<JsonResult>(new JsonResult(param),HttpStatus.OK);
@@ -43,6 +48,7 @@ public class ApiController {
 	@PostMapping("/realtime-mise")
 	public ResponseEntity<JsonResult> getRealtimeMise(@RequestBody Map<String,String> data) {
 		try {
+			log.debug("### : realtime-mise call");
 			String city = data.get("city");
 			List<Mise> miseList = miseService.getCachedRealTimeMiseListByCityName(city);
 			Map<String, Object> param = new HashMap<>();
