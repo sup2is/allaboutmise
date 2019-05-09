@@ -25,7 +25,7 @@ public class GlobalTimeTest {
 	
 	@Test 
 	public void testGetGlobalTimeToSeconds() {
-		System.out.println(GlobalTime.getReloadTimeToSeconds());
+//		System.out.println(GlobalTime.getReloadTimeToSeconds());
 	}
 	
 	

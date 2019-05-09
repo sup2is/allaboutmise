@@ -2,6 +2,7 @@ package com.sup2is.allaboutmise.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -19,8 +20,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -48,6 +51,9 @@ public class ApiControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 	
+	@Mock
+	private Environment environment;
+	
 	@Before
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(apiController).build();
@@ -70,6 +76,26 @@ public class ApiControllerTest {
 		
 		assertEquals("SUCCESS", map.get("result"));
 		
+	}
+	
+	
+	@Test
+	public void getCities() throws Exception {
+		
+		when(environment.getProperty("cities")).thenReturn("서울");
+		
+		MvcResult result = this.mockMvc.perform(get("/api/cities"))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andReturn();
+		
+		String body = result.getResponse().getContentAsString();
+		
+		System.out.println(body);
+		
+		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String,Object>>() {};
+		Map<String, Object> map = objectMapper.readValue(body,typeRef);
+		assertEquals("SUCCESS", map.get("result"));
 	}
 	
 	@Test

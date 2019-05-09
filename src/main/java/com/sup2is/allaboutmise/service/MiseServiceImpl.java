@@ -21,6 +21,9 @@ import org.springframework.web.client.RestTemplate;
 import com.sup2is.allaboutmise.model.Mise;
 import com.sup2is.allaboutmise.util.XmlParserHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class MiseServiceImpl implements MiseService {
 	
@@ -44,6 +47,8 @@ public class MiseServiceImpl implements MiseService {
 	}
 
 	private ResponseEntity<String> getRealTimeMiseData(String cityName) throws UnsupportedEncodingException, MalformedURLException, RestClientException, URISyntaxException {
+		
+		log.debug("### : api call!!!!");
 		StringBuilder urlBuilder = new StringBuilder("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=JjG0s4ycsYdZgdhyA6TSK0BmHZkjjF7Wl52jtIdrI4V%2BifddyGx1ETGSj%2BkK%2BfWdrYjW%2F1L%2B4hK0i0%2BA4viz4Q%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("100", "UTF-8")); /*한 페이지 결과 수*/

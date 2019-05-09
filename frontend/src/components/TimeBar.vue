@@ -9,17 +9,18 @@ export default {
   name: 'TimeBar',
   data () {
     return {
-      max: 300,
+      max: 305,
       reloadTime: 0
     }
   },
   methods: {
     timer () {
-      setInterval(() => {
+      var times = setInterval(() => {
         this.reloadTime += 1
-        if (this.reloadTime > 300) {
+        console.log(this.reloadTime)
+        if (this.reloadTime > this.max) {
+          console.log('over')
           this.$EventBus.$emit('reload')
-          this.reloadTime = 0
         }
       }, 1000)
     }
@@ -28,10 +29,9 @@ export default {
     this.timer()
   },
   created () {
-    this.$http.get(this.$baseUrl + '/api/reloadTime')
-      .then((result) => {
-        this.reloadTime = result.data.param.reloadTime
-      })
+    this.$EventBus.$on('reloadTime', (reloadTime) => {
+      this.reloadTime = reloadTime
+    })
   }
 }
 </script>

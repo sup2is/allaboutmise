@@ -4,13 +4,12 @@
     <b-container fluid>
       <h1>{{msg}}</h1>
       <b-nav>
-        <b-nav-item v-for="mode in modes" :key="mode.value" @click="changeMode">{{mode.text}}</b-nav-item>
+        <b-nav-item v-for="mode in modes" :key="mode.value" @click="changeMode(mode.value)" >{{mode.text}}</b-nav-item>
         <b-nav-item-dropdown :text="selected">
-          <b-dropdown-item v-for="option in sortOptions" :key="option" :value="option" @click="sort">{{option}}</b-dropdown-item>
+          <b-dropdown-item v-for="option in sortOptions" :key="option.value" :value="option.value" @click="sort(option)">{{option.name}}</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-nav>
     </b-container>
-    {{selected}}
   </div>
 </template>
 
@@ -26,23 +25,24 @@ export default {
   data () {
     return {
       msg: 'allaboutmise.',
-      sortOptions: ['오름차순', '내림차순'],
+      sortOptions: [
+        {'name': '오름차순', 'value': 'asc'},
+        {'name': '내림차순', 'value': 'desc'}
+        ],
       selected: '오름차순',
       modes: [
         {'text': '실시간', 'value': 'pm10Value'},
         {'text': '평균', 'value': 'pm10Value24'}
-      ],
-      mode: ''
+      ]
     }
   },
   methods: {
-    sort (e) {
-      this.selected = e.target.innerText
-      this.$EventBus.$emit('sort')
+    sort (option) {
+      this.selected = option.name
+      this.$EventBus.$emit('sort', option.value)
     },
-    changeMode (e) {
-      this.mode = e.target.innerText
-      this.$EventBus.$emit('mode', this.mode)
+    changeMode (mode) {
+      this.$EventBus.$emit('mode', mode)
     }
   }
 }

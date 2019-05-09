@@ -14,8 +14,8 @@
     <cache name="mise-realtime"
             maxElementsInMemory="5000"
             eternal="false"
-            timeToIdleSeconds="300"
-            timeToLiveSeconds="300"
+            timeToIdleSeconds="295"
+            timeToLiveSeconds="295"
             memoryStoreEvictionPolicy="LRU" />
 
 </ehcache>

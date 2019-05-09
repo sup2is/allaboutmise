@@ -1,18 +1,29 @@
 package com.sup2is.allaboutmise.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
 import lombok.extern.slf4j.Slf4j;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 
 @Slf4j
+@Component
 public class GlobalTime {
 	
-/**
- * @return 5분 +5초간격으로 페이징 로드 만약 현재시간이 12분 36초라면 return되는 값은 2분 36초 -> 166초 + 5초 = 171초
- */
-	public static long getReloadTimeToSeconds() {
-		log.debug("### : getReloadTimeToSeconds call");
-		long seconds = System.currentTimeMillis() / 1000;
-		log.debug("### : getReloadTimeToSeconds : " + seconds % 300);
-		return  seconds % 300 + 5;
-	}
+	@Autowired
+	private CacheManager cacheManager;
 	
+	@Autowired
+	private Environment environment;
+	
+	public int getReloadTimeToSeconds(String city) {
+		Element cache = cacheManager.getCache("mise-realtime").get(city);
+		long expiration = cache.getExpirationTime();
+		long currentTime = System.currentTimeMillis();
+		int reloadTime = (int) (Integer.parseInt(environment.getProperty("reload-time")) - (expiration - currentTime) /1000);
+		log.debug("#### : reloadTime = " + reloadTime);
+		return reloadTime;
+	}
 }

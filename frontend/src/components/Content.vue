@@ -1,7 +1,9 @@
 <template>
   <div>
     <nav>
-      <Citys/>
+      <b-container>
+        <a @click="changeCity" href="#" class="under" v-for="city in cities" :key="city"><span>{{city}}</span></a>
+      </b-container>
     </nav>
     <article>
       <div ref="content" class="container">
@@ -9,7 +11,7 @@
         <div v-for="content in contents" class="row mb-4 content" :key="content.stationName">
           <div class="col-sm-1" :key="content.stationName">{{ content.stationName }}</div>
           <div class="col-sm-11 pt-1">
-            <b-progress :value="parseInt(content.pm10Value)" :variant="content.cssClass" :key="content.stationName" show-value></b-progress>
+            <b-progress :value="parseInt(content[mode])" :variant="content.cssClass" :key="content.stationName" show-value></b-progress>
           </div>
         </div>
         </transition-group>
@@ -24,21 +26,18 @@
 
 <script>
 
-import Citys from './Citys'
-
 export default {
   name: 'Content',
-  components: {
-    Citys
-  },
   data () {
     return {
       contents: [],
+      cities: [],
       fadeCount: 0,
       contentShow: true,
       transitionTrigger: false,
       loading: false,
-      mode: ''
+      mode: 'pm10Value',
+      sortMode: 'asc'
     }
   },
   methods: {
@@ -49,40 +48,59 @@ export default {
       this.$http.post(this.$baseUrl + '/api/realtime-mise', {
         city: this.$globalCity
       })
-        .then((result) => {
+      .then((result) => {
           this.setContents(result.data.param.miseList)
+          this.$EventBus.$emit('reloadTime', result.data.param.reloadTime)
         })
     },
-    sortByPm10value () {
-      this.contents.sort(function (a, b) {
-        if (parseInt(a.pm10Value) > parseInt(b.pm10Value)) return -1
-        if (parseInt(a.pm10Value) < parseInt(b.pm10Value)) return 1
-        return 0
+    getCities () {
+      this.$http.get(this.$baseUrl + '/api/cities')
+        .then((result) => {
+          this.cities = result.data.param.cities
       })
     },
-    sortByPm10value24 () {
-      this.contents.sort(function (a, b) {
-        if (parseInt(a.pm10Value24) > parseInt(b.pm10Value24)) return -1
-        if (parseInt(a.pm10Value24) < parseInt(b.pm10Value24)) return 1
-        return 0
-      })
+    sort () {
+      var mode = this.mode
+      console.log(this.sortMode === 'asc')
+      if(this.sortMode === 'asc'){
+        this.contents.sort(function (a, b) {
+          if (parseInt(a[mode]) > parseInt(b[mode])) return -1
+          if (parseInt(a[mode]) < parseInt(b[mode])) return 1
+          return 0
+        })
+      }else {
+        this.contents.sort(function (a, b) {
+          if (parseInt(a[mode]) > parseInt(b[mode])) return 1
+          if (parseInt(a[mode]) < parseInt(b[mode])) return -1
+          return 0
+        })
+      }
     },
     setContents (contents) {
       this.contents = contents
-      this.sortByPm10value()
+      this.sort()
+    },
+    changeCity (e) {
+      this.$setGlobalCity(e.target.innerHTML)
+      this.reload()
     }
   },
   mounted () {
     this.$EventBus.$on('reload', () => {
+      console.log('on load call')
       this.reload()
-    })
-    this.$EventBus.$on('sort', () => {
     })
     this.$EventBus.$on('mode', (mode) => {
       this.mode = mode
+      this.sort()
+    })
+    this.$EventBus.$on('sort', (sortMode) => {
+      this.sortMode = sortMode
+      this.sort()
     })
   },
   created () {
+    this.getCities()
     this.getRealtimeMiseDatas()
   }
 }
@@ -106,6 +124,21 @@ nav {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
   transform: translateY(20px);
+}
+
+a > span{ color: #aaa; }
+a:link { color: #fff; text-decoration: none;}
+a:visited { color: black; text-decoration: none;}
+a:hover { color: black; text-decoration: none;}
+
+.under {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 5px;
+  border-bottom: 2px solid #eee;
+  display: inline-block;
+  padding-bottom: 3px;
+  font-family: sans-serif;
 }
 
 </style>

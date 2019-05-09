@@ -34,6 +34,7 @@ export default {
     changeCity (e) {
       this.$setGlobalCity(e.target.innerHTML)
       this.$EventBus.$emit('reload')
+      this.$EventBus.$emit('reloadTime')
     }
   }
 }
