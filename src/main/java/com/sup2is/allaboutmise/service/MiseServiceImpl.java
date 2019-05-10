@@ -43,6 +43,7 @@ public class MiseServiceImpl implements MiseService {
 		InputStream is = new ByteArrayInputStream(response.getBody().getBytes());
 		parser.parse(is, xmlParserHandler);
 		List<Mise> miseList = xmlParserHandler.getParsedData();
+		System.out.println(miseList);
 		return miseList;
 	}
 

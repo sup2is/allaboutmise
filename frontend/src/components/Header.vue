@@ -28,7 +28,7 @@ export default {
       sortOptions: [
         {'name': '오름차순', 'value': 'asc'},
         {'name': '내림차순', 'value': 'desc'}
-        ],
+      ],
       selected: '오름차순',
       modes: [
         {'text': '실시간', 'value': 'pm10Value'},

@@ -9,17 +9,15 @@ export default {
   name: 'TimeBar',
   data () {
     return {
-      max: 305,
+      max: 3600,
       reloadTime: 0
     }
   },
   methods: {
     timer () {
-      var times = setInterval(() => {
+      setInterval(() => {
         this.reloadTime += 1
-        console.log(this.reloadTime)
         if (this.reloadTime > this.max) {
-          console.log('over')
           this.$EventBus.$emit('reload')
         }
       }, 1000)

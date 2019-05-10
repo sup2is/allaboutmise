@@ -2,7 +2,7 @@
   <div>
     <nav>
       <b-container>
-        <a @click="changeCity" href="#" class="under" v-for="city in cities" :key="city"><span>{{city}}</span></a>
+        <a @click="changeCity(city)" href="#" class="under" v-for="city in cities" :key="city"><span>{{city}}</span></a>
       </b-container>
     </nav>
     <article>
@@ -17,10 +17,10 @@
         </transition-group>
       </div>
     </article>
-    <div>
+   <!--  <div>
       <b-spinner v-if="loading" label="Loading..."></b-spinner>
     </div>
-    <button @click="!loading"></button>
+    <button @click="!loading"></button> -->
   </div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
       this.$http.post(this.$baseUrl + '/api/realtime-mise', {
         city: this.$globalCity
       })
-      .then((result) => {
+        .then((result) => {
           this.setContents(result.data.param.miseList)
           this.$EventBus.$emit('reloadTime', result.data.param.reloadTime)
         })
@@ -57,18 +57,18 @@ export default {
       this.$http.get(this.$baseUrl + '/api/cities')
         .then((result) => {
           this.cities = result.data.param.cities
-      })
+        })
     },
     sort () {
       var mode = this.mode
       console.log(this.sortMode === 'asc')
-      if(this.sortMode === 'asc'){
+      if (this.sortMode === 'asc') {
         this.contents.sort(function (a, b) {
           if (parseInt(a[mode]) > parseInt(b[mode])) return -1
           if (parseInt(a[mode]) < parseInt(b[mode])) return 1
           return 0
         })
-      }else {
+      } else {
         this.contents.sort(function (a, b) {
           if (parseInt(a[mode]) > parseInt(b[mode])) return 1
           if (parseInt(a[mode]) < parseInt(b[mode])) return -1
@@ -80,8 +80,8 @@ export default {
       this.contents = contents
       this.sort()
     },
-    changeCity (e) {
-      this.$setGlobalCity(e.target.innerHTML)
+    changeCity (city) {
+      this.$setGlobalCity(city)
       this.reload()
     }
   },
