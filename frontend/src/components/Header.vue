@@ -4,7 +4,9 @@
     <b-container fluid>
       <h1>{{msg}}</h1>
       <b-nav>
-        <b-nav-item v-for="mode in modes" :key="mode.value" @click="changeMode(mode.value)" >{{mode.text}}</b-nav-item>
+        <b-nav-item-dropdown :text="modeSelected">
+          <b-dropdown-item v-for="mode in modes" :key="mode.name" :value="mode.value" @click="changeMode(mode)">{{mode.name}}</b-dropdown-item>
+        </b-nav-item-dropdown>
         <b-nav-item-dropdown :text="selected">
           <b-dropdown-item v-for="option in sortOptions" :key="option.value" :value="option.value" @click="sort(option)">{{option.name}}</b-dropdown-item>
         </b-nav-item-dropdown>
@@ -30,10 +32,8 @@ export default {
         {'name': '내림차순', 'value': 'desc'}
       ],
       selected: '오름차순',
-      modes: [
-        {'text': '실시간', 'value': 'pm10Value'},
-        {'text': '평균', 'value': 'pm10Value24'}
-      ]
+      modes: [],
+      modeSelected: '미세먼지(pm10)'
     }
   },
   methods: {
@@ -43,7 +43,16 @@ export default {
     },
     changeMode (mode) {
       this.$EventBus.$emit('mode', mode)
+    },
+    getModes () {
+      this.$http.get(this.$baseUrl + '/api/modes')
+        .then((result) => {
+          this.modes = result.data.param.modes
+        })
     }
+  },
+  created () {
+    this.getModes()
   }
 }
 </script>

@@ -24,6 +24,7 @@ import com.sup2is.allaboutmise.model.JsonResult;
 import com.sup2is.allaboutmise.model.Mise;
 import com.sup2is.allaboutmise.service.MiseService;
 import com.sup2is.allaboutmise.service.MiseServiceImpl;
+import com.sup2is.allaboutmise.util.ModesConverter;
 import com.sup2is.allaboutmise.util.GlobalTime;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +52,19 @@ public class ApiController {
 			String[] cities = environment.getProperty("cities").toString().split(",");
 			Map<String, Object> param = new HashMap<>();
 			param.put("cities", cities);
+			return new ResponseEntity<JsonResult>(new JsonResult(param),HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<JsonResult>(new JsonResult(e),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/modes")
+	public ResponseEntity<JsonResult> getModes() {
+		try {
+			log.debug("### : Modes call");
+			List<Map<String, String>> modes = ModesConverter.convertToListMap();
+			Map<String, Object> param = new HashMap<>();
+			param.put("modes", modes);
 			return new ResponseEntity<JsonResult>(new JsonResult(param),HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<JsonResult>(new JsonResult(e),HttpStatus.INTERNAL_SERVER_ERROR);

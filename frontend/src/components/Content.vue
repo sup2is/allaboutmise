@@ -11,7 +11,7 @@
         <div v-for="content in contents" class="row mb-4 content" :key="content.stationName">
           <div class="col-sm-1" :key="content.stationName">{{ content.stationName }}</div>
           <div class="col-sm-11 pt-1">
-            <b-progress :value="parseInt(content[mode])" :variant="content.cssClass" :key="content.stationName" show-value></b-progress>
+            <b-progress :value="parseFloat(content[mode.value])" :variant="content.cssClass" :key="content.stationName" :max="parseInt(mode.max)" :precision="2" show-value></b-progress>
           </div>
         </div>
         </transition-group>
@@ -36,7 +36,7 @@ export default {
       contentShow: true,
       transitionTrigger: false,
       loading: false,
-      mode: 'pm10Value',
+      mode: {'name': '미세먼지', 'value': 'pm10Value', 'grade': 'pm10Grade', 'max': '200'},
       sortMode: 'asc'
     }
   },
@@ -49,6 +49,7 @@ export default {
         city: this.$globalCity
       })
         .then((result) => {
+          console.log(result.data.param.miseList)
           this.setContents(result.data.param.miseList)
           this.$EventBus.$emit('reloadTime', result.data.param.reloadTime)
         })
@@ -64,14 +65,14 @@ export default {
       console.log(this.sortMode === 'asc')
       if (this.sortMode === 'asc') {
         this.contents.sort(function (a, b) {
-          if (parseInt(a[mode]) > parseInt(b[mode])) return -1
-          if (parseInt(a[mode]) < parseInt(b[mode])) return 1
+          if (parseInt(a[mode.value]) > parseInt(b[mode.value])) return -1
+          if (parseInt(a[mode.value]) < parseInt(b[mode.value])) return 1
           return 0
         })
       } else {
         this.contents.sort(function (a, b) {
-          if (parseInt(a[mode]) > parseInt(b[mode])) return 1
-          if (parseInt(a[mode]) < parseInt(b[mode])) return -1
+          if (parseInt(a[mode.value]) > parseInt(b[mode.value])) return 1
+          if (parseInt(a[mode.value]) < parseInt(b[mode.value])) return -1
           return 0
         })
       }
@@ -91,6 +92,8 @@ export default {
       this.reload()
     })
     this.$EventBus.$on('mode', (mode) => {
+      console.log(mode)
+      console.log(this.contents)
       this.mode = mode
       this.sort()
     })

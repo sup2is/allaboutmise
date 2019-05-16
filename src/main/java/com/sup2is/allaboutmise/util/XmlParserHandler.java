@@ -34,17 +34,10 @@ public class XmlParserHandler extends DefaultHandler {
 			if(miseList == null) {
 				miseList = new ArrayList<>();
 			}
-			setPm10ValueGrade();
 			miseList.add(mise);
 			mise = null;
 		}
 		builder.setLength(0);
-	}
-	
-	private void setPm10ValueGrade() {
-		if(!mise.getPm10Value().contains("-")) {
-			mise.setCssClass(Pm10ValueGrade.getPm10ValueCssClass(Integer.parseInt(mise.getPm10Value())));
-		}
 	}
 
 	@Override
