@@ -62,7 +62,7 @@ public class ApiController {
 	public ResponseEntity<JsonResult> getModes() {
 		try {
 			log.debug("### : Modes call");
-			List<Map<String, String>> modes = ModesConverter.convertToListMap();
+			List<Map<String, Object>> modes = ModesConverter.convertToListMap();
 			Map<String, Object> param = new HashMap<>();
 			param.put("modes", modes);
 			return new ResponseEntity<JsonResult>(new JsonResult(param),HttpStatus.OK);

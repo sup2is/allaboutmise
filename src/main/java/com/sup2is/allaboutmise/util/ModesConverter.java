@@ -9,18 +9,19 @@ import com.sup2is.allaboutmise.model.Modes;
 
 public class ModesConverter {
 	
-	public static List<Map<String, String>> convertToListMap() {
+	public static List<Map<String, Object>> convertToListMap() {
 		
-		ArrayList<Map<String, String>> modes = new ArrayList<>();
+		ArrayList<Map<String, Object>> modes = new ArrayList<>();
 		
 		Modes[] ms = Modes.values();
 		
-		Map<String, String> map;
+		Map<String, Object> map;
 		for (Modes m : ms) {
 			map = new HashMap<>();
 			map.put("name", m.getName());
 			map.put("value", m.getValue());
 			map.put("grade", m.getGrade());
+			map.put("max", (m.getMax() > 1 ? m.getMax() : m.getMax()));
 			modes.add(map);
 		}
 

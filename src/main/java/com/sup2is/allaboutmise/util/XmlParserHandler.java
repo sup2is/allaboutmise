@@ -10,7 +10,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.sup2is.allaboutmise.model.Mise;
-import com.sup2is.allaboutmise.model.Pm10ValueGrade;
 
 @Component
 public class XmlParserHandler extends DefaultHandler {	

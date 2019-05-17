@@ -15,7 +15,7 @@ public class ModesConverterTest {
 		//given
 		
 		//when
-		List<Map<String, String>> modes = ModesConverter.convertToListMap();
+		List<Map<String, Object>> modes = ModesConverter.convertToListMap();
 		
 		//then
 		assertEquals(9, modes.size());

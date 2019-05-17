@@ -33,7 +33,7 @@ export default {
       ],
       selected: '오름차순',
       modes: [],
-      modeSelected: '미세먼지(pm10)'
+      modeSelected: '미세먼지(pm2.5)'
     }
   },
   methods: {
@@ -42,6 +42,7 @@ export default {
       this.$EventBus.$emit('sort', option.value)
     },
     changeMode (mode) {
+      this.modeSelected = mode.name
       this.$EventBus.$emit('mode', mode)
     },
     getModes () {

@@ -19,7 +19,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Mise {
-	
 	private String stationName;
 	private String mangName;
 	private String dataTime;
@@ -31,7 +30,7 @@ public class Mise {
 	private String pm10Value24;
 	private String pm25Value;
 	private String pm25Value24;
-	private String khai;
+	private String khaiValue;
 	private String khaiGrade;
 	private String so2Grade;
 	private String coGrade;
@@ -39,9 +38,6 @@ public class Mise {
 	private String no2Grade;
 	private String pm10Grade;
 	private String pm25Grade;
-	private String pm10Grade1H;
-	private String pm25Grade1H;
-	private String cssClass;
-	private boolean show = false;
-	
+	private String pm10Grade1h;
+	private String pm25Grade1h;
 }

@@ -11,16 +11,12 @@
         <div v-for="content in contents" class="row mb-4 content" :key="content.stationName">
           <div class="col-sm-1" :key="content.stationName">{{ content.stationName }}</div>
           <div class="col-sm-11 pt-1">
-            <b-progress :value="parseFloat(content[mode.value])" :variant="content.cssClass" :key="content.stationName" :max="parseInt(mode.max)" :precision="2" show-value></b-progress>
+            <b-progress :value="parseFloat(content[mode.value])" :variant="variant(mode, content)" :key="content.stationName" :max="parseFloat(mode.max)" :precision="precision(mode, content)" show-value></b-progress>
           </div>
         </div>
         </transition-group>
       </div>
     </article>
-   <!--  <div>
-      <b-spinner v-if="loading" label="Loading..."></b-spinner>
-    </div>
-    <button @click="!loading"></button> -->
   </div>
 </template>
 
@@ -36,7 +32,7 @@ export default {
       contentShow: true,
       transitionTrigger: false,
       loading: false,
-      mode: {'name': '미세먼지', 'value': 'pm10Value', 'grade': 'pm10Grade', 'max': '200'},
+      mode: {'name': '미세먼지(pm2.5)', 'value': 'pm25Value', 'grade': 'pm25Grade1h', 'max': '80'},
       sortMode: 'asc'
     }
   },
@@ -65,14 +61,14 @@ export default {
       console.log(this.sortMode === 'asc')
       if (this.sortMode === 'asc') {
         this.contents.sort(function (a, b) {
-          if (parseInt(a[mode.value]) > parseInt(b[mode.value])) return -1
-          if (parseInt(a[mode.value]) < parseInt(b[mode.value])) return 1
+          if (parseFloat(a[mode.value]) > parseFloat(b[mode.value])) return -1
+          if (parseFloat(a[mode.value]) < parseFloat(b[mode.value])) return 1
           return 0
         })
       } else {
         this.contents.sort(function (a, b) {
-          if (parseInt(a[mode.value]) > parseInt(b[mode.value])) return 1
-          if (parseInt(a[mode.value]) < parseInt(b[mode.value])) return -1
+          if (parseFloat(a[mode.value]) > parseFloat(b[mode.value])) return 1
+          if (parseFloat(a[mode.value]) < parseFloat(b[mode.value])) return -1
           return 0
         })
       }
@@ -84,16 +80,35 @@ export default {
     changeCity (city) {
       this.$setGlobalCity(city)
       this.reload()
+    },
+    precision (mode, content) {
+      if (content[mode.value].indexOf('.') > 0) {
+        return (content[mode.value].length - 1) - content[mode.value].indexOf('.')
+      }
+      return 0
+    },
+    variant (mode, content) {
+      var grade = content[mode.grade]
+
+      if (grade === '1') {
+        return 'primary'
+      }
+      if (grade === '2') {
+        return 'warning'
+      }
+      if (grade === '3') {
+        return 'danger'
+      }
+      if (grade === '4') {
+        return 'dark'
+      }
     }
   },
   mounted () {
     this.$EventBus.$on('reload', () => {
-      console.log('on load call')
       this.reload()
     })
     this.$EventBus.$on('mode', (mode) => {
-      console.log(mode)
-      console.log(this.contents)
       this.mode = mode
       this.sort()
     })
