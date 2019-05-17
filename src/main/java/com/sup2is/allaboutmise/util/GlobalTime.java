@@ -1,6 +1,7 @@
 package com.sup2is.allaboutmise.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import net.sf.ehcache.Element;
 
 @Slf4j
 @Component
+@PropertySource("classpath:/allaboutmise.properties")
 public class GlobalTime {
 	
 	@Autowired

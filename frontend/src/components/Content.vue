@@ -46,7 +46,6 @@ export default {
         city: this.$globalCity
       })
         .then((result) => {
-          console.log(result.data.param.miseList)
           this.setContents(result.data.param.miseList)
           this.$EventBus.$emit('reloadTime', result.data.param.reloadTime)
         })
@@ -61,7 +60,6 @@ export default {
     },
     sort () {
       var mode = this.mode
-      console.log(this.sortMode === 'asc')
       if (this.sortMode === 'asc') {
         this.contents.sort(function (a, b) {
           if (parseFloat(a[mode.value]) > parseFloat(b[mode.value])) return -1
@@ -81,7 +79,7 @@ export default {
       this.sort()
     },
     changeCity (city, index) {
-      this.cities.forEach (function (e) {
+      this.cities.forEach(function (e) {
         e.isActive = false
       })
       this.cities[index].isActive = true
