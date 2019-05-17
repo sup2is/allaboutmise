@@ -2,7 +2,7 @@
   <div>
     <nav>
       <b-container>
-        <a @click="changeCity(city)" href="#" class="under" v-for="city in cities" :key="city"><span>{{city}}</span></a>
+        <a @click="changeCity(city, index)" href="#" :class="{active: city.isActive}" class="under" :index="index" v-for="(city, index) in cities" :key="city.name"><span>{{city.name}}</span></a>
       </b-container>
     </nav>
     <article>
@@ -28,6 +28,7 @@ export default {
     return {
       contents: [],
       cities: [],
+      citiesCount: 0,
       fadeCount: 0,
       contentShow: true,
       transitionTrigger: false,
@@ -54,6 +55,8 @@ export default {
       this.$http.get(this.$baseUrl + '/api/cities')
         .then((result) => {
           this.cities = result.data.param.cities
+          this.citiesCount = this.cities.length
+          this.cities[0].isActive = true
         })
     },
     sort () {
@@ -77,8 +80,12 @@ export default {
       this.contents = contents
       this.sort()
     },
-    changeCity (city) {
-      this.$setGlobalCity(city)
+    changeCity (city, index) {
+      this.cities.forEach (function (e) {
+        e.isActive = false
+      })
+      this.cities[index].isActive = true
+      this.$setGlobalCity(city.name)
       this.reload()
     },
     precision (mode, content) {
@@ -147,7 +154,8 @@ nav {
 a > span{ color: #aaa; }
 a:link { color: #fff; text-decoration: none;}
 a:visited { color: black; text-decoration: none;}
-a:hover { color: black; text-decoration: none;}
+a > span:hover { color: black; text-decoration: none; transition-duration: .3s}
+a.active > span { color: black; }
 
 .under {
   font-size: 20px;

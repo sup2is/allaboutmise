@@ -1,20 +1,16 @@
 package com.sup2is.allaboutmise.controller;
 
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,21 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sup2is.allaboutmise.model.JsonResult;
 import com.sup2is.allaboutmise.model.Mise;
 import com.sup2is.allaboutmise.service.MiseService;
-import com.sup2is.allaboutmise.service.MiseServiceImpl;
-import com.sup2is.allaboutmise.util.ModesConverter;
+import com.sup2is.allaboutmise.util.EnumConverter;
 import com.sup2is.allaboutmise.util.GlobalTime;
 
 import lombok.extern.slf4j.Slf4j;
-import net.sf.ehcache.CacheManager;
 
 @RestController
 @RequestMapping("/api")
-@PropertySource("classpath:/allaboutmise.properties")
 @Slf4j
 public class ApiController {
-	
-	@Autowired
-	private Environment environment;
 	
 	@Autowired
 	private MiseService miseService;
@@ -49,7 +39,7 @@ public class ApiController {
 	public ResponseEntity<JsonResult> getCities() {
 		try {
 			log.debug("### : cities call");
-			String[] cities = environment.getProperty("cities").toString().split(",");
+			List<Map<String, Object>> cities = EnumConverter.citiesEnumConvertToListMap();
 			Map<String, Object> param = new HashMap<>();
 			param.put("cities", cities);
 			return new ResponseEntity<JsonResult>(new JsonResult(param),HttpStatus.OK);
@@ -62,7 +52,7 @@ public class ApiController {
 	public ResponseEntity<JsonResult> getModes() {
 		try {
 			log.debug("### : Modes call");
-			List<Map<String, Object>> modes = ModesConverter.convertToListMap();
+			List<Map<String, Object>> modes = EnumConverter.modesEnumConvertToListMap();
 			Map<String, Object> param = new HashMap<>();
 			param.put("modes", modes);
 			return new ResponseEntity<JsonResult>(new JsonResult(param),HttpStatus.OK);

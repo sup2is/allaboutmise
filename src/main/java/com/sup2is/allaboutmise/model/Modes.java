@@ -3,8 +3,8 @@ package com.sup2is.allaboutmise.model;
 public enum Modes {
 	PM25("미세먼지(pm2.5)", "pm25Value", "pm25Grade1h", 80),
 	PM10("미세먼지(pm10)", "pm10Value", "pm10Grade1h", 120),
-	PM10_24("미세먼지 24시간 예측농도(pm10)", "pm10Value24", "pm10Grade", 100),
 	PM25_24("미세먼지 24시간 예측농도(pm2.5)", "pm25Value24", "pm25Grade", 60),
+	PM10_24("미세먼지 24시간 예측농도(pm10)", "pm10Value24", "pm10Grade", 120),
 	SO2("아황산가스(so2)", "so2Value", "so2Grade", 0.15),
 	CO("일산화탄소(co)", "coValue", "coGrade", 25),
 	O3("오존(o3)", "o3Value", "o3Grade", 0.1),

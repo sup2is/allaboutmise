@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sup2is.allaboutmise.model.Cities;
 import com.sup2is.allaboutmise.model.Modes;
 
-public class ModesConverter {
+public class EnumConverter {
 	
-	public static List<Map<String, Object>> convertToListMap() {
+	public static List<Map<String, Object>> modesEnumConvertToListMap() {
 		
 		ArrayList<Map<String, Object>> modes = new ArrayList<>();
 		
@@ -26,6 +27,23 @@ public class ModesConverter {
 		}
 
 		return modes;
+	}
+	
+	public static List<Map<String, Object>> citiesEnumConvertToListMap() {
+
+		ArrayList<Map<String, Object>> cities = new ArrayList<>();
+		
+		Cities[] cs = Cities.values();
+		
+		Map<String, Object> map;
+		for (Cities c : cs) {
+			map = new HashMap<>();
+			map.put("name", c);
+			cities.add(map);
+		}
+
+		return cities;
+		
 	}
 
 }
