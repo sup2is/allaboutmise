@@ -26,3 +26,7 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+
+.log
+src/main/resources/static/*
