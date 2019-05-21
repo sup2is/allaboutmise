@@ -6,6 +6,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.EnvironmentPBEConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -49,6 +51,20 @@ public class WebConfig implements WebMvcConfigurer  {
 	public SAXParser parser() throws ParserConfigurationException, SAXException {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		return factory.newSAXParser();
+	}
+	
+	
+	@Bean
+	public StandardPBEStringEncryptor standardPBEStringEncryptor() {
+		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+		encryptor.setConfig(environmentPBEConfig());
+		return encryptor;
+	}
+	
+	@Bean
+	@ConfigurationProperties(prefix="spring.jasypt.config")
+	public EnvironmentPBEConfig environmentPBEConfig() {
+		return new EnvironmentPBEConfig();
 	}
 	
 }
