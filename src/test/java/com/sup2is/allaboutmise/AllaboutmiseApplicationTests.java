@@ -1,5 +1,6 @@
 package com.sup2is.allaboutmise;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,13 @@ public class AllaboutmiseApplicationTests {
 	@Autowired
 	private Environment env;
 	
+	@Autowired
+	private StandardPBEStringEncryptor encryptor;
+	
 	@Test
 	public void test_jasypt_프로퍼티_복호화_체크() {
 		
-		System.out.println(env.getProperty("app.service.key"));
+		System.out.println(encryptor.decrypt(env.getProperty("app.service.key")));
 		
 	}
 

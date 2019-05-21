@@ -53,8 +53,8 @@ public class WebConfig implements WebMvcConfigurer  {
 		return factory.newSAXParser();
 	}
 	
-	
 	@Bean
+	@ConfigurationProperties(prefix="spring.jasypt.config")
 	public StandardPBEStringEncryptor standardPBEStringEncryptor() {
 		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 		encryptor.setConfig(environmentPBEConfig());
