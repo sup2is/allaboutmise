@@ -20,8 +20,8 @@ Vue.prototype.$setGlobalCity = function (city) {
   Vue.prototype.$globalCity = city
 }
 
-Vue.prototype.$baseUrl = 'http://15.164.48.89:8081/'
-// Vue.prototype.$baseUrl = 'http://127.0.0.1:8081/'
+//Vue.prototype.$baseUrl = 'http://15.164.48.89:8081/'
+Vue.prototype.$baseUrl = 'http://127.0.0.1:8081/'
 
 /* eslint-disable no-new */
 new Vue({
