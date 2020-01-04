@@ -1,26 +1,17 @@
 package com.sup2is.allaboutmise.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.sup2is.allaboutmise.model.*;
+import com.sup2is.allaboutmise.service.MiseService;
+import com.sup2is.allaboutmise.util.GlobalTime;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.sup2is.allaboutmise.model.JsonResult;
-import com.sup2is.allaboutmise.model.Mise;
-import com.sup2is.allaboutmise.service.MiseService;
-import com.sup2is.allaboutmise.util.EnumConverter;
-import com.sup2is.allaboutmise.util.GlobalTime;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -37,12 +28,12 @@ public class ApiController {
 	public ResponseEntity<JsonResult> getCities() {
 		try {
 			log.debug("### : cities call");
-			List<Map<String, Object>> cities = EnumConverter.citiesEnumConvertToListMap();
+			List<CityDto> cities = CityDto.createCityDtoList(City.getCities());
 			Map<String, Object> param = new HashMap<>();
 			param.put("cities", cities);
-			return new ResponseEntity<JsonResult>(new JsonResult(param),HttpStatus.OK);
+			return new ResponseEntity<>(new JsonResult(param),HttpStatus.OK);
 		}catch (Exception e) {
-			return new ResponseEntity<JsonResult>(new JsonResult(e),HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new JsonResult(e),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -50,12 +41,12 @@ public class ApiController {
 	public ResponseEntity<JsonResult> getModes() {
 		try {
 			log.debug("### : Modes call");
-			List<Map<String, Object>> modes = EnumConverter.modesEnumConvertToListMap();
+			List<ModeDto> modes = ModeDto.createModeDtoList(Mode.getModes());
 			Map<String, Object> param = new HashMap<>();
 			param.put("modes", modes);
-			return new ResponseEntity<JsonResult>(new JsonResult(param),HttpStatus.OK);
+			return new ResponseEntity<>(new JsonResult(param),HttpStatus.OK);
 		}catch (Exception e) {
-			return new ResponseEntity<JsonResult>(new JsonResult(e),HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new JsonResult(e),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

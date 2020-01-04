@@ -1,6 +1,11 @@
 package com.sup2is.allaboutmise.model;
 
-public enum Modes {
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+
+public enum Mode {
 	PM25("미세먼지(pm2.5)", "pm25Value", "pm25Grade1h", 80),
 	PM10("미세먼지(pm10)", "pm10Value", "pm10Grade1h", 120),
 	PM25_24("미세먼지 24시간 예측농도(pm2.5)", "pm25Value24", "pm25Grade", 60),
@@ -16,7 +21,7 @@ public enum Modes {
 	private String grade;
 	private double max;
 	
-	Modes(String name, String value, String grade, double max) {
+	Mode(String name, String value, String grade, double max) {
 		this.name = name;
 		this.value = value;
 		this.grade = grade;
@@ -34,8 +39,14 @@ public enum Modes {
 	public String getGrade() {
 		return this.grade;
 	}
+
 	public double getMax() {
 		return this.max;
+	}
+
+	public static List<Mode> getModes() {
+		return Arrays.stream(Mode.values())
+				.collect(toList());
 	}
 	
 }
