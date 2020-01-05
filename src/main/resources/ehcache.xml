@@ -10,12 +10,13 @@
             timeToLiveSeconds="120"
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"/>
-    
+
+    <!-- 3600초(1시간)에서 5초의 오차감안을위해 TTL을 3595으로 줌 -->
     <cache name="mise-realtime"
             maxElementsInMemory="5000"
             eternal="false"
-            timeToIdleSeconds="3590"
-            timeToLiveSeconds="3590"
+            timeToIdleSeconds="3595"
+            timeToLiveSeconds="3595"
             memoryStoreEvictionPolicy="LRU" />
 
 </ehcache>
