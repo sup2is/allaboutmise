@@ -1,6 +1,7 @@
 package com.sup2is.allaboutmise.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sup2is.allaboutmise.util.GlobalTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +39,10 @@ public class ApiControllerTest {
 
 	@Mock
 	private MiseService miseService;
-	
+
+	@Mock
+	private GlobalTime globalTime;
+
 	@InjectMocks
 	private ApiController apiController;
 	
@@ -55,46 +60,49 @@ public class ApiControllerTest {
 	}
 	
 	@Test
-	public void getGlobalTime() throws Exception {
-		MvcResult result = this.mockMvc.perform(get("/api/globalTime"))
+	public void 도시목록가져오기() throws Exception {
+
+		//given
+
+		//when
+		MvcResult result = this.mockMvc.perform(get("/api/cities"))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andReturn();
-		
+
+		//when
 		String body = result.getResponse().getContentAsString();
-		
 		System.out.println(body);
-		
-		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String,Object>>() {};
-		
-		Map<String, Object> map = objectMapper.readValue(body,typeRef);
-		
-		assertEquals("SUCCESS", map.get("result"));
-		
-	}
-	
-	
-	@Test
-	public void getCities() throws Exception {
-		
-		when(environment.getProperty("cities")).thenReturn("서울");
-		
-		MvcResult result = this.mockMvc.perform(get("/api/cities"))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn();
-		
-		String body = result.getResponse().getContentAsString();
-		
-		System.out.println(body);
-		
 		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String,Object>>() {};
 		Map<String, Object> map = objectMapper.readValue(body,typeRef);
 		assertEquals("SUCCESS", map.get("result"));
+		assertNotNull(map.get("param"));
+		
 	}
-	
+
 	@Test
-	public void testRealtimeMise() throws Exception {
+	public void 모드가져오기() throws Exception {
+
+		//given
+
+		//when
+		MvcResult result = this.mockMvc.perform(get("/api/modes"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andReturn();
+
+		//when
+		String body = result.getResponse().getContentAsString();
+		System.out.println(body);
+		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String,Object>>() {};
+		Map<String, Object> map = objectMapper.readValue(body,typeRef);
+		assertEquals("SUCCESS", map.get("result"));
+		assertNotNull(map.get("param"));
+
+	}
+
+	@Test
+	public void 미세먼지데이터가져오기() throws Exception {
 		//given
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("city", "인천");
@@ -102,29 +110,20 @@ public class ApiControllerTest {
 		String jsonStr = objectMapper.writeValueAsString(data);
 		
 		//when
-		MvcResult result = this.mockMvc.perform(post("/api/realtime-mise/")
+		MvcResult result = this.mockMvc.perform(post("/api/realtime-mise")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(jsonStr))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andReturn();
-		
+
 		//then
 		String body = result.getResponse().getContentAsString();
-		
 		System.out.println(body);
-		
 		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String,Object>>() {};
-		
 		Map<String, Object> map = objectMapper.readValue(body,typeRef);
-		
-		Map<String, Object> param = (Map<String, Object>) map.get("param");
-		
-		List<Mise> miseList = (List<Mise>) param.get("miseList");
-		assertEquals(true, miseList.size() > 0);
-		
-		
-		
+		assertEquals("SUCCESS", map.get("result"));
+
 	}
 }
 

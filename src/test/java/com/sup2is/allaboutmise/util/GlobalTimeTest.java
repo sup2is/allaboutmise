@@ -27,6 +27,7 @@ public class GlobalTimeTest {
 	@Autowired
 	GlobalTime globalTime;
 
+	@Ignore
 	@Test
 	public void 전역시간테스트_5초() throws Exception {
 

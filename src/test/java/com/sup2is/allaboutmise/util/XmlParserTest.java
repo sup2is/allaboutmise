@@ -36,20 +36,11 @@ public class XmlParserTest {
 	}
 	
 	@Test
-	public void testGetParsedData() {
+	public void Xml테스트데이터파싱() {
 		List<Mise> mise = handler.getParsedData();
 		assertEquals(10, mise.size());
 		assertEquals("신흥", mise.get(0).getStationName());
-	}
-	
-	@Ignore
-	@Test
-	public void testSetDataFromFieldName() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		Method m = XmlParserHandler.class.getDeclaredMethod("setDataFromFieldName",Mise.class, String.class, String.class);
-		m.setAccessible(true);
-		String name = "stationName";
-		String testValue = "중구";
-		m.invoke(new XmlParserHandler(), new Mise(), name,testValue);
+		System.out.println(mise.toString());
 	}
 
 }
