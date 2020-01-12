@@ -2,7 +2,7 @@
   <div>
     <TimeBar/>
     <b-container fluid>
-      <h1>{{msg}}</h1>
+      <h1><a target="_blank" href="https://github.com/sup2is/allaboutmise">{{msg}}</a></h1>
       <b-nav>
         <b-nav-item-dropdown :text="modeSelected">
           <b-dropdown-item v-for="mode in modes" :key="mode.name" :value="mode.value" @click="changeMode(mode)">{{mode.name}}</b-dropdown-item>
@@ -66,6 +66,10 @@ h1 {
 
 ul {
   float: right;
+}
+
+a {
+  color: black;
 }
 
 </style>
